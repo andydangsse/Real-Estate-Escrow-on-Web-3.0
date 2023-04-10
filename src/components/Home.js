@@ -3,7 +3,9 @@ import { useEffect, useState } from 'react';
 
 import close from '../assets/close.svg';
 
-const Home = ({ home, provider, account, escrow, togglePop }) => {
+const Home = ({ home, provider, account, escrow, toggleProp }) => {
+
+
     const [hasBought, setHasBought] = useState(false)
     const [hasLended, setHasLended] = useState(false)
     const [hasInspected, setHasInspected] = useState(false)
@@ -24,7 +26,7 @@ const Home = ({ home, provider, account, escrow, togglePop }) => {
 
         const hasBought = await escrow.approval(home.id, buyer)
         setHasBought(hasBought)
-
+        
         // -- Seller
 
         const seller = await escrow.seller()
@@ -121,6 +123,7 @@ const Home = ({ home, provider, account, escrow, togglePop }) => {
                 <div className="home__image">
                     <img src={home.image} alt="Home" />
                 </div>
+
                 <div className="home__overview">
                     <h1>{home.name}</h1>
                     <p>
@@ -128,10 +131,11 @@ const Home = ({ home, provider, account, escrow, togglePop }) => {
                         <strong>{home.attributes[3].value}</strong> ba |
                         <strong>{home.attributes[4].value}</strong> sqft
                     </p>
-                    <p>{home.address}</p>
-
-                    <h2>{home.attributes[0].value} ETH</h2>
-
+                    <p>
+                        {home.address}
+                    </p>
+                    <h3>{home.attributes[0].value} ETH</h3>
+                    
                     {owner ? (
                         <div className='home__owned'>
                             Owned by {owner.slice(0, 6) + '...' + owner.slice(38, 42)}
@@ -152,7 +156,7 @@ const Home = ({ home, provider, account, escrow, togglePop }) => {
                                 </button>
                             ) : (
                                 <button className='home__buy' onClick={buyHandler} disabled={hasBought}>
-                                    Buy
+                                    Deposit to Buy
                                 </button>
                             )}
 
@@ -165,28 +169,27 @@ const Home = ({ home, provider, account, escrow, togglePop }) => {
                     <hr />
 
                     <h2>Overview</h2>
-
                     <p>
                         {home.description}
                     </p>
-
                     <hr />
-
-                    <h2>Facts and features</h2>
-
+                    <h2>Full details</h2>
                     <ul>
                         {home.attributes.map((attribute, index) => (
                             <li key={index}><strong>{attribute.trait_type}</strong> : {attribute.value}</li>
                         ))}
                     </ul>
+                    
                 </div>
 
-
-                <button onClick={togglePop} className="home__close">
+                <button onClick={toggleProp} className="home__close">
                     <img src={close} alt="Close" />
                 </button>
+
+
             </div>
-        </div >
+            
+        </div>
     );
 }
 
